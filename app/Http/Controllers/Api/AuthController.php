@@ -3,24 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $message = [];
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required | max:255',
-            'email' => 'required | unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ], $message);
-
-        if($validator->fails()){
-            return response()->error($validator->errors()->all(), 422);
+        if($request->validator->fails()){
+            return response()->error($request->validator->errors()->all(), 422);
         }
         else
         {
@@ -35,14 +29,9 @@ class AuthController extends Controller
         }
     }
 
-    public function login(Request $request){
-        $validator = Validator::make($request->all(),[
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->error($validator->errors()->all());
+    public function login(LoginRequest $request){
+        if ($request->validator->fails()) {
+            return response()->error($request->validator->errors()->all());
         }
         else
         {
