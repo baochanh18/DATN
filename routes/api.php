@@ -22,4 +22,8 @@ Route::group([
        Route::post('register', 'AuthController@register');
        Route::post('login', 'AuthController@login');
     });
+
+    Route::group(['middleware' => 'jwt.auth'], function (){
+        Route::apiResource('users', 'UserController');
+    });
 });

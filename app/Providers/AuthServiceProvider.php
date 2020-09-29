@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Model\User' => 'App\Policies\UserPolicy',
     ];
 
     /**
@@ -24,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
+        Gate::resource('users', 'App\Policies\UserPolicy');
         //
     }
 }
