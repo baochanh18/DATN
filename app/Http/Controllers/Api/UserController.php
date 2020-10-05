@@ -96,6 +96,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        if(Gate::denies('users.delete', $user)) return $this->notAuthorized();
+        $user->delete();
+        return  response()->success("", "Delete successfully");
     }
 }
