@@ -83,7 +83,6 @@ class UserController extends Controller
             if (Auth::user()->isAdmin)
                 $user->update(['isAdmin' => $request->isAdmin]);
         }
-        $user->update($request->only(['name']));
 
         return response()->success(new UserResource($user));
     }

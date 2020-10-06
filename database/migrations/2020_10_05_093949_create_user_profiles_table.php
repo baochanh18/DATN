@@ -22,7 +22,6 @@ class CreateUserProfilesTable extends Migration
             $table->boolean('gender');
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
-            $table->integer('address_id');
             $table->timestamps();
         });
     }
