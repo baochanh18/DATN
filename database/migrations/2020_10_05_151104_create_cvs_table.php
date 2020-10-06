@@ -26,7 +26,6 @@ class CreateCvsTable extends Migration
             $table->string('phone')->nullable();
             $table->string('email');
             $table->integer('cv_status');
-            $table->integer('address_id');
             $table->timestamps();
         });
     }

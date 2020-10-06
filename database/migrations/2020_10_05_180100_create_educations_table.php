@@ -18,7 +18,7 @@ class CreateEducationsTable extends Migration
             $table->foreignId('cv_id')->constrained('cvs');
             $table->integer('literacy');
             $table->string('school_name');
-            $table->foreignId('major_id')->constrained('majors');
+            $table->foreignId('major_id')->nullable()->constrained('majors');
             $table->foreignId('country_id')->constrained('countries');
             $table->integer('start_month');
             $table->integer('start_year');
