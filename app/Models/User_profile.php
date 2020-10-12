@@ -11,6 +11,12 @@ class User_profile extends Model
 
     protected $fillable = ['user_id', 'name', 'email', 'birthday', 'gender', 'phone', 'avatar'];
 
+    protected $dates = [
+        'birthday',
+    ];
+
+    protected $dateFormat = 'Y-m-d';
+
     public function user()
     {
         return $this->belongsTo(User::class);

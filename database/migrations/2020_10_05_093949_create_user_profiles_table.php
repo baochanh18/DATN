@@ -18,7 +18,7 @@ class CreateUserProfilesTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('name');
             $table->string('email');
-            $table->dateTime('birthday');
+            $table->date('birthday');
             $table->boolean('gender');
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
