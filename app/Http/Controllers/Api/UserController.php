@@ -22,6 +22,12 @@ class UserController extends Controller
         return response()->success(UserResource::collection(User::all()));
     }
 
+    public function me()
+    {
+        $user = auth()->user();
+
+        return response()->success([ "user" => new UserResource($user) ]);
+    }
     /**
      * Show the form for creating a new resource.
      *
