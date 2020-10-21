@@ -11,17 +11,17 @@ class Job_category extends Model
 
     protected $fillable = [ 'job_name' ];
 
-    public function work_exp()
+    public function workExp()
     {
         return $this->belongsTo(Work_exp::class);
     }
 
-    public function job_desires()
+    public function jobDesires()
     {
         return $this->belongsToMany(Job_desire::class);
     }
 
-    public function job_details()
+    public function jobDetails()
     {
         return $this->belongsToMany(Job_detail::class);
     }

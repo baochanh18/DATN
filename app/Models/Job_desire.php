@@ -18,7 +18,7 @@ class Job_desire extends Model
         return $this->belongsTo(Cv::class);
     }
 
-    public function job_categories()
+    public function jobCategories()
     {
         return $this->belongsToMany(Job_category::class);
     }

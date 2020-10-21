@@ -22,7 +22,7 @@ class Cv extends Model
         return $this->hasOne(Address::class);
     }
 
-    public function  foreign_languages()
+    public function  foreignLanguages()
     {
         return $this->hasMany(Foreign_language::class);
     }
@@ -32,17 +32,17 @@ class Cv extends Model
         return $this->hasMany(Education::class);
     }
 
-    public function cv_skills()
+    public function cvSkills()
     {
         return $this->hasMany(Cv_skill::class);
     }
 
-    public function work_exps()
+    public function workExps()
     {
         return $this->hasMany(Work_exp::class);
     }
 
-    public function job_desire()
+    public function jobDesire()
     {
         return $this->hasOne(Job_desire::class);
     }

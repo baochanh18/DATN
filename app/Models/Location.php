@@ -13,11 +13,11 @@ class Location extends Model
 
     public function country()
     {
-        return $this->hasOne(Country::class);
+        return $this->belongsTo(Country::class);
     }
 
-    public function address()
+    public function addresses()
     {
-        return $this->belongsTo(Address::class);
+        return $this->hasMany(Address::class);
     }
 }

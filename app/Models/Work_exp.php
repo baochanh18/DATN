@@ -17,7 +17,7 @@ class Work_exp extends Model
         return $this->belongsTo(Cv::class);
     }
 
-    public function job_category()
+    public function jobCategory()
     {
         return $this->hasOne(Job_category::class);
     }
