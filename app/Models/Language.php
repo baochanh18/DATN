@@ -11,7 +11,7 @@ class Language extends Model
 
     protected $fillable = [ 'language_name' ];
 
-    public function foreign_language()
+    public function foreignLanguage()
     {
         return $this->belongsTo(Foreign_language::class);
     }

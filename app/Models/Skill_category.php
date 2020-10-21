@@ -11,7 +11,7 @@ class Skill_category extends Model
 
     protected $fillable = [ 'parent_id', 'skill_name'];
 
-    public function cv_skill()
+    public function cvSkill()
     {
         return $this->belongsTo(Cv_skill::class);
     }

@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\User_profile as UserProfileResource;
+use App\Http\Resources\Company_profile as CompanyProfileResource;
 
 class User extends JsonResource
 {
@@ -15,15 +17,25 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $arrayData = [
             'id' => $this->id,
             'email' => $this->email,
             'role' => $this->role,
-            'name' => $this->user_profile->name,
-            'birthday' => Carbon::parse($this->user_profile->birthday)->format('Y-m-d'),
-            'gender' => $this->user_profile->gender,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+
+        if($this->role != 1)
+        {
+            $arrayData['userProfile'] = new UserProfileResource($this->userProfile);
+            $arrayData['companyProfile'] = [];
+        }
+        else
+        {
+            $arrayData['userProfile'] = [];
+            $arrayData['companyProfile'] = new CompanyProfileResource($this->companyProfile);
+        }
+
+        Return $arrayData;
     }
 }

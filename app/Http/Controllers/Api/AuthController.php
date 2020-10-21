@@ -27,7 +27,7 @@ class AuthController extends Controller
             $profile = $request->get('profile');
             $profile['birthday'] = Carbon::parse($profile['birthday'])->format('Y-m-d');
             error_log($profile['birthday']);
-            $user->user_profile()->create($profile);
+            $user->userProfile()->create($profile);
 
             $token = auth()->login($user);
             return response()->success(["token" => $token, "user" => new UserResource($user)], ["Register Success"], 201);

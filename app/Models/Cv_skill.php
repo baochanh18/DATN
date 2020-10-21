@@ -17,7 +17,7 @@ class Cv_skill extends Model
         return $this->belongsTo(Cv::class);
     }
 
-    public function skill_category()
+    public function skillCategory()
     {
         return $this->hasOne(Skill_category::class);
     }

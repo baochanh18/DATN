@@ -49,12 +49,12 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function user_profile()
+    public function userProfile()
     {
         return $this->hasOne(User_profile::class);
     }
 
-    public function company_profile()
+    public function companyProfile()
     {
         return $this->hasOne(Company_profile::class);
     }

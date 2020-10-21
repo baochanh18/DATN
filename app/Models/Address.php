@@ -12,12 +12,12 @@ class Address extends Model
     protected $fillable = [ 'job_desire_id', 'work_exp_id', 'company_profile_id', 'job_contact_id', 'job_detail_id',
                             'country_id', 'address', 'location_id', 'user_profile_id', 'cv_id' ];
 
-    public function user_profile()
+    public function userProfile()
     {
         return $this->belongsTo(User_profile::class);
     }
 
-    public function company_profile()
+    public function companyProfile()
     {
         return $this->belongsTo(Company_profile::class);
     }
@@ -27,33 +27,33 @@ class Address extends Model
         return $this->belongsTo(Cv::class);
     }
 
-    public function job_desire()
+    public function jobDesire()
     {
         return $this->belongsTo(Job_desire::class);
     }
 
-    public function work_exp()
+    public function workExp()
     {
         return $this->belongsTo(Work_exp::class);
     }
 
-    public function job_contact()
+    public function jobContact()
     {
         return $this->belongsTo(Job_contact::class);
     }
 
-    public function job_detail()
+    public function jobDetail()
     {
         return $this->belongsTo(Job_detail::class);
     }
 
     public function country()
     {
-        return $this->hasOne(Country::class);
+        return $this->belongsTo(Country::class);
     }
 
     public function location()
     {
-        return $this->hasOne(Location::class);
+        return $this->belongsTo(Location::class);
     }
 }

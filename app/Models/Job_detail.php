@@ -23,7 +23,7 @@ class Job_detail extends Model
         return $this->hasMany(Address::class);
     }
 
-    public function job_categories()
+    public function jobCategories()
     {
         return $this->belongsToMany(Job_category::class);
     }
