@@ -16,16 +16,18 @@ class Address extends JsonResource
     public function toArray($request)
     {
         $arrayData = [
+            'id' => $this->id ,
             'country' => $this->country->country_name ,
             'address' => $this->address  ,
         ];
 
         if(count($this->location()->get()) > 0)
         {
-            $arrayData['city'] = Location::find($this->location->parent_id)->location_name;
+            $arrayData['city_id'] = $this->location->city->id ;
+            $arrayData['city'] = $this->location->city->city_name ;
+            $arrayData['district_id'] = $this->location->id ;
             $arrayData['district'] = $this->location->location_name ;
         }
-
         return $arrayData;
     }
 }
