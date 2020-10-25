@@ -9,7 +9,7 @@ class Location extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'country_id', 'parent_id', 'location_name', 'zipcode' ];
+    protected $fillable = [ 'country_id', 'city_id', 'location_name', 'zipcode' ];
 
     public function country()
     {
@@ -19,5 +19,9 @@ class Location extends Model
     public function addresses()
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function city(){
+        return $this->belongsTo(City::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\City;
 use App\Models\Country;
 use App\Models\Location;
 use Illuminate\Database\Seeder;
@@ -243,15 +244,14 @@ class LocationSeeder extends Seeder
 
         foreach($vn as $tp => $quan )
         {
-            $l = Location::create(array(
-                'country_id' => Country::where('country_name', '=', 'Vietnam')->firstOrFail()->id ,
-                'location_name' => $tp
+            $l = City::create(array(
+                'city_name' => $tp
             ));
             foreach($quan as $name)
             {
                 Location::create(array(
                     'country_id' => Country::where('country_name', '=', 'Vietnam')->firstOrFail()->id ,
-                    'parent_id' => $l->id ,
+                    'city_id' => $l->id ,
                     'location_name' => $name
                 ));
             }

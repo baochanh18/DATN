@@ -25,6 +25,7 @@ Route::group([
 
     Route::group(['middleware' => 'jwt.auth'], function (){
         Route::get('users/me', 'UserController@me');
+        Route::post('users/userinfo', 'UserController@userinfo');
         Route::apiResource('users', 'UserController');
     });
 });

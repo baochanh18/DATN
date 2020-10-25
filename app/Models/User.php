@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -29,6 +30,85 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function scopeFilter($query, $request)
+    {
+        if(count($request))
+            foreach($request as $field )
+            {
+                if($field['id'] == 'email')
+                    $query->where('email', 'LIKE', '%' . $field['value'] . '%');
+                else if($field['id'] == 'role' || $field['id'] == 'id')
+                {
+                    if ($field['value'] == "all")
+                        continue;
+                    else
+                        $query->where($field['id'], '=', $field['value']);
+                }
+                else
+                {
+                    if($field['id'] == 'name')
+                        $query->whereHas('userProfile', function ($query) use ($field) {
+                            $query->where('name', 'LIKE', '%' . $field['value'] . '%');
+                        });
+                    else if($field['id'] == 'city')
+                    {
+                        $query->whereHas('userProfile', function ($query) use ($field) {
+                            $query->whereHas('address', function ($query) use ($field) {
+                                $query->whereHas('location', function ($query) use ($field) {
+                                    $query->whereHas('city', function ($query) use ($field) {
+                                        $query->where('city_name', 'LIKE', '%' . $field['value'] . '%');
+                                    });
+                                });
+                            });
+                        });
+                    }
+                    else if($field['id'] == 'country')
+                    {
+                        $query->whereHas('userProfile', function ($query) use ($field) {
+                            $query->whereHas('address', function ($query) use ($field) {
+                                $query->whereHas('country', function ($query) use ($field) {
+                                    $query->where('country_name', 'LIKE', '%' . $field['value'] . '%');
+                                });
+                            });
+                        });
+                    }
+                }
+            }
+
+        return $query;
+    }
+
+    public function scopeSort($query, $request)
+    {
+        if(count($request))
+        {
+            if($request[0]['id'] == 'id' || $request[0]['id'] == 'email' || $request[0]['id'] == 'role')
+                if($request[0]['desc'])
+                    $query->orderBy($request[0]['id'], 'desc');
+                else
+                    $query->orderBy($request[0]['id']);
+//            else if($request[0]['id'] == 'name' )
+//            {
+////                $query->with(['userProfile' => function ($query) use ($request) {
+////                    if($request[0]['desc'])
+////                    {
+////                        $query->orderBy('name', 'desc');
+////                        error_log("call desc");
+////                    }
+////
+////                    else
+////                        $query->orderBy('name');
+////                }]);
+//                $query->join('user_profiles', 'user_profiles.user_id', '=', 'users.id')
+//                    ->orderBy('user_profiles.name')
+//                    ->get();
+////                $query->userProfile()->orderBy('name');
+//            }
+        }
+
+        return $query;
+    }
 
     /**
      * The attributes that should be cast to native types.

@@ -17,6 +17,7 @@ class User_profile extends JsonResource
     public function toArray($request)
     {
         $arrayData = [
+            'id' => $this->id ,
             'name' => $this->name,
             'profileEmail' => $this->email,
             'phone' => $this->phone,
