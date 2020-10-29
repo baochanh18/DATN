@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use app\Helpers\CollectionHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\User as UserResource;
@@ -33,23 +34,36 @@ class UserController extends Controller
 
     public function userinfo(Request $request)
     {
-//        $a = $request->sorted;
-//        if(count($a))
-//            error_log($a[0]['id']);
-//        foreach($request->sorted as $item)
-//        {
-////            error_log($item->id);
-//        }
-//        foreach($request->get('filtered') as $field )
-//        {
-//            error_log($field['id']);
-//        }
         if(Gate::denies('users.viewAny')) return $this->notAuthorized();
+        $sort = $request->get('sorted');
         $users = User::where('role', '!=', UserRole::Company)
             ->filter($request->get('filtered'))
-            ->sort($request->get('sorted'))
-            ->paginate($request->pageSize);
-        return response()->success(UserResource::collection($users));
+            ->sort($sort)
+            ->get();
+        if(count($sort))
+        {
+            if($sort[0]['id'] == 'name' )
+                if($sort[0]['desc'])
+                    $users = $users->sortByDesc(function ($val){
+                        return $val->userable->name;
+                    });
+                else
+                    $users = $users->sortBy(function ($val){
+                        return $val->userable->name;
+                    });
+//            if($sort[0]['id'] == 'city' )
+//                if($sort[0]['desc'])
+//                    $users = $users->sortByDesc(function ($val){
+//                        return $val->userable->address->location->city;
+//                    });
+//                else
+//                    $users = $users->sortBy(function ($val){
+//                        return $val->userable->address->location->city;
+//                    });
+        }
+
+        $pagination = CollectionHelper::paginate($users, $request->pageSize);
+        return response()->success(UserResource::collection($pagination));
     }
     /**
      * Show the form for creating a new resource.
