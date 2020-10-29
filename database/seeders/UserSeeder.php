@@ -20,29 +20,40 @@ class UserSeeder extends Seeder
         User::factory()
             ->has(User_profile::factory()->has(Address::factory()))
             ->create([
-           'email' => 'admin@gmail.com',
-           'role' => 2,
-        ]);
-
-        User::factory()
-            ->has(User_profile::factory()->hasAddress())
-            ->count(10)
-            ->create([
+                'email' => 'admin@gmail.com',
                 'role' => 2,
+                'userable_id' => 1,
+                'userable_type' => 'App\Models\User_profile',
             ]);
 
-        User::factory()
-            ->has(Company_profile::factory()->hasAddresses(3))
-            ->count(100)
-            ->create([
-                'role' => 1,
+        for ($i = 2; $i <= 11; $i++){
+            User::factory()
+                ->has(User_profile::factory()->hasAddress())
+                ->create([
+                    'role' => 2,
+                    'userable_id' => $i,
+                    'userable_type' => 'App\Models\User_profile',
             ]);
+        }
 
-        User::factory()
-            ->has(User_profile::factory()->hasAddress())
-            ->count(1000)
-            ->create([
-                'role' => 0,
-            ]);
+        for($i = 1; $i <= 100; $i++) {
+            User::factory()
+                ->has(Company_profile::factory()->hasAddresses(3))
+                ->create([
+                    'role' => 1,
+                    'userable_id' => $i,
+                    'userable_type' => 'App\Models\Company_profile',
+                ]);
+        }
+
+        for($i = 12; $i <= 1011; $i++) {
+            User::factory()
+                ->has(User_profile::factory()->hasAddress())
+                ->create([
+                    'role' => 0,
+                    'userable_id' => $i,
+                    'userable_type' => 'App\Models\User_profile',
+                ]);
+        }
     }
 }

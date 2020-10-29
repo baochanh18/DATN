@@ -88,23 +88,6 @@ class User extends Authenticatable implements JWTSubject
                     $query->orderBy($request[0]['id'], 'desc');
                 else
                     $query->orderBy($request[0]['id']);
-//            else if($request[0]['id'] == 'name' )
-//            {
-////                $query->with(['userProfile' => function ($query) use ($request) {
-////                    if($request[0]['desc'])
-////                    {
-////                        $query->orderBy('name', 'desc');
-////                        error_log("call desc");
-////                    }
-////
-////                    else
-////                        $query->orderBy('name');
-////                }]);
-//                $query->join('user_profiles', 'user_profiles.user_id', '=', 'users.id')
-//                    ->orderBy('user_profiles.name')
-//                    ->get();
-////                $query->userProfile()->orderBy('name');
-//            }
         }
 
         return $query;
@@ -132,6 +115,11 @@ class User extends Authenticatable implements JWTSubject
     public function userProfile()
     {
         return $this->hasOne(User_profile::class);
+    }
+
+    public function userable()
+    {
+        return $this->morphTo();
     }
 
     public function companyProfile()
