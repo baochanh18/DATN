@@ -51,20 +51,55 @@ class UserController extends Controller
                     $users = $users->sortBy(function ($val){
                         return $val->userable->name;
                     });
-//            if($sort[0]['id'] == 'city' )
-//                if($sort[0]['desc'])
-//                    $users = $users->sortByDesc(function ($val){
-//                        return $val->userable->address->location->city;
-//                    });
-//                else
-//                    $users = $users->sortBy(function ($val){
-//                        return $val->userable->address->location->city;
-//                    });
         }
 
         $pagination = CollectionHelper::paginate($users, $request->pageSize);
         return response()->success(UserResource::collection($pagination));
     }
+
+    public function companyinfo(Request $request)
+    {
+        if(Gate::denies('users.viewAny')) return $this->notAuthorized();
+        $sort = $request->get('sorted');
+        $users = User::where('role', '=', UserRole::Company)
+            ->filterCom($request->get('filtered'))
+            ->sortCom($sort)
+            ->get();
+        if(count($sort))
+        {
+            if($sort[0]['id'] == 'name' )
+                if($sort[0]['desc'])
+                    $users = $users->sortByDesc(function ($val){
+                        return $val->userable->name;
+                    });
+                else
+                    $users = $users->sortBy(function ($val){
+                        return $val->userable->name;
+                    });
+            else if($sort[0]['id'] == "contact_office_email" )
+                if($sort[0]['desc'])
+                    $users = $users->sortByDesc(function ($val){
+                        return $val->userable->contact_office_email;
+                    });
+                else
+                    $users = $users->sortBy(function ($val){
+                        return $val->userable->contact_office_email;
+                    });
+            else if($sort[0]['id'] == "company_size" )
+                if($sort[0]['desc'])
+                    $users = $users->sortByDesc(function ($val){
+                        return $val->userable->company_size;
+                    });
+                else
+                    $users = $users->sortBy(function ($val){
+                        return $val->userable->company_size;
+                    });
+        }
+
+        $pagination = CollectionHelper::paginate($users, $request->pageSize);
+        return response()->success(UserResource::collection($pagination));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
