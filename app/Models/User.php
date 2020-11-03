@@ -79,11 +79,60 @@ class User extends Authenticatable implements JWTSubject
         return $query;
     }
 
+    public function scopeFilterCom($query, $request)
+    {
+        if(count($request))
+            foreach($request as $field )
+            {
+                if($field['id'] == 'email')
+                    $query->where('email', 'LIKE', '%' . $field['value'] . '%');
+                else if($field['id'] == 'role' || $field['id'] == 'id')
+                {
+                    if ($field['value'] == "all")
+                        continue;
+                    else
+                        $query->where($field['id'], '=', $field['value']);
+                }
+                else
+                {
+                    if($field['id'] == "company_size")
+                        if($field['value'] == "all")
+                            continue;
+                        else
+                            $query->whereHas('companyProfile', function ($query) use ($field) {
+                                $query->where("company_size", '=', $field['value']);
+                            });
+                    else
+                    {
+                        $query->whereHas('companyProfile', function ($query) use ($field) {
+                            $query->where($field['id'], 'LIKE', '%' . $field['value'] . '%');
+                        });
+                    }
+                }
+            }
+
+        return $query;
+    }
+
     public function scopeSort($query, $request)
     {
         if(count($request))
         {
             if($request[0]['id'] == 'id' || $request[0]['id'] == 'email' || $request[0]['id'] == 'role')
+                if($request[0]['desc'])
+                    $query->orderBy($request[0]['id'], 'desc');
+                else
+                    $query->orderBy($request[0]['id']);
+        }
+
+        return $query;
+    }
+
+    public function scopeSortCom($query, $request)
+    {
+        if(count($request))
+        {
+            if($request[0]['id'] == 'email')
                 if($request[0]['desc'])
                     $query->orderBy($request[0]['id'], 'desc');
                 else
