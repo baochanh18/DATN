@@ -46,7 +46,8 @@ class AuthController extends Controller
             }
 
             $user = auth()->user();
-
+            if(!$user->isActive)
+                return response()->error(["Can not log in to this account!"],400);
             return response()->success(["token" => $token, "user" => new UserResource($user)], ["Logged in successfully."]);
         }
     }

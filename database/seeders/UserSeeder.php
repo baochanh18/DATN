@@ -55,5 +55,15 @@ class UserSeeder extends Seeder
                     'userable_type' => 'App\Models\User_profile',
                 ]);
         }
+        for($i = 1012; $i <= 1511; $i++) {
+            User::factory()
+                ->has(User_profile::factory()->hasAddress())
+                ->create([
+                    'role' => 0,
+                    'isActive' => 0,
+                    'userable_id' => $i,
+                    'userable_type' => 'App\Models\User_profile',
+                ]);
+        }
     }
 }

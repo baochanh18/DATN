@@ -27,6 +27,7 @@ class UserPolicy
         return false;
     }
 
+
     /**
      * Determine whether the user can view the model.
      *
@@ -36,7 +37,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        //
+        return $user->id === $model->id;
     }
 
     /**

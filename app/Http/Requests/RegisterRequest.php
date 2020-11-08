@@ -29,7 +29,7 @@ class RegisterRequest extends FormRequest
         return [
             'email' => 'required | unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'profile.name' => 'required|string|min:2',
+            'profile.name' => 'required|string|min:2' ,
             'profile.birthday' => 'required',
             'profile.gender' => 'required',
         ];
