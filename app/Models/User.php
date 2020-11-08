@@ -38,7 +38,7 @@ class User extends Authenticatable implements JWTSubject
             {
                 if($field['id'] == 'email')
                     $query->where('email', 'LIKE', '%' . $field['value'] . '%');
-                else if($field['id'] == 'role' || $field['id'] == 'id')
+                else if($field['id'] == 'role' || $field['id'] == 'id' || $field['id'] == 'isActive')
                 {
                     if ($field['value'] == "all")
                         continue;
@@ -86,7 +86,7 @@ class User extends Authenticatable implements JWTSubject
             {
                 if($field['id'] == 'email')
                     $query->where('email', 'LIKE', '%' . $field['value'] . '%');
-                else if($field['id'] == 'role' || $field['id'] == 'id')
+                else if($field['id'] == 'role' || $field['id'] == 'id' || $field['id'] == 'isActive' )
                 {
                     if ($field['value'] == "all")
                         continue;
@@ -118,7 +118,8 @@ class User extends Authenticatable implements JWTSubject
     {
         if(count($request))
         {
-            if($request[0]['id'] == 'id' || $request[0]['id'] == 'email' || $request[0]['id'] == 'role')
+            if($request[0]['id'] == 'id' || $request[0]['id'] == 'email' || $request[0]['id'] == 'role' ||
+                $request[0]['id'] == 'isActive')
                 if($request[0]['desc'])
                     $query->orderBy($request[0]['id'], 'desc');
                 else
@@ -132,7 +133,7 @@ class User extends Authenticatable implements JWTSubject
     {
         if(count($request))
         {
-            if($request[0]['id'] == 'email')
+            if($request[0]['id'] == 'email' || $request[0]['id'] == 'isActive')
                 if($request[0]['desc'])
                     $query->orderBy($request[0]['id'], 'desc');
                 else

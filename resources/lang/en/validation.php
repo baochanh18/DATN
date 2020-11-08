@@ -146,6 +146,12 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'email' => 'Email',
+        'password' => 'Password',
+        'profile.name' => 'Name' ,
+        'profile.birthday' => 'Birthday',
+        'profile.gender' => 'Gender',
+    ],
 
 ];

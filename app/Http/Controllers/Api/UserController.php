@@ -138,6 +138,25 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function editstatus(Request $request, $id)
+    {
+        if(Gate::denies('users.viewAny')) return $this->notAuthorized();
+        $user = User::findOrFail($id);
+        if($user->isActive)
+        {
+            $user->isActive = false;
+            $user->save();
+            return response()->success([],['Block User Successfully'], 200);
+        }
+        else
+        {
+            $user->isActive = true;
+            $user->save();
+            return response()->success([],'Activate User Successfully!', 200);
+        }
+    }
+
     public function edit($id)
     {
         //

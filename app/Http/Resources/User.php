@@ -22,6 +22,7 @@ class User extends JsonResource
             'id' => $this->id,
             'email' => $this->email,
             'role' => UserRole::getKey( $this->role ) ,
+            'isActive' => $this->isActive,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
