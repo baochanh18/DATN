@@ -21,10 +21,11 @@ class User extends JsonResource
         $arrayData = [
             'id' => $this->id,
             'email' => $this->email,
+            'username' => $this->username,
             'role' => UserRole::getKey( $this->role ) ,
             'isActive' => $this->isActive,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at->format('Y-m-d'),
+            'updated_at' => $this->updated_at->format('Y-m-d'),
         ];
 
         if($this->role != UserRole::Company)

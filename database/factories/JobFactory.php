@@ -2,18 +2,19 @@
 
 namespace Database\Factories;
 
+use App\Models\Job;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class UserFactory extends Factory
+class JobFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = User::class;
+    protected $model = Job::class;
 
     /**
      * Define the model's default state.
@@ -23,11 +24,12 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'email' => $this->faker->unique()->safeEmail,
-            'username' => $this->faker->unique()->userName,
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'role' => rand(0,2),
+            'user_id' => User::factory(),
+            'job_title' => $this->faker->jobTitle,
+            'company_name' => $this->faker->company,
+            'address' => $this->faker->address,
+            'company_descriptions' => $this->faker->realText(500),
+            'company_size' => rand(0, 9),
         ];
     }
 }

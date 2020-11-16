@@ -19,7 +19,7 @@ class Work_exp extends Model
 
     public function jobCategory()
     {
-        return $this->hasOne(Job_category::class);
+        return $this->belongsTo(Job_category::class);
     }
 
     public function addresses()

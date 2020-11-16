@@ -17,7 +17,7 @@ class CreateCompanyProfilesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users');
             $table->string('name');
-            $table->string('description');
+            $table->longText('description');
             $table->integer('company_size');
             $table->string('website_url')->nullable();
             $table->string('youtube_url')->nullable();
