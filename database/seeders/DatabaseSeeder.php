@@ -17,8 +17,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CountrySeeder::class,
             LocationSeeder::class,
+            JobCategorySeeder::class,
             UserSeeder::class,
+            JobSeeder::class,
         ]);
-        $this->command->info('Country seeded!');
     }
 }

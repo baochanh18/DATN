@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Address;
 use App\Models\Company_profile;
+use App\Models\Job;
+use App\Models\Job_detail;
 use App\Models\User;
 use App\Models\User_profile;
 use Illuminate\Database\Seeder;
@@ -39,6 +41,9 @@ class UserSeeder extends Seeder
         for($i = 1; $i <= 100; $i++) {
             User::factory()
                 ->has(Company_profile::factory()->hasAddresses(3))
+                ->has(Job::factory()
+                    ->count(10)
+                    ->has(Job_detail::factory()))
                 ->create([
                     'role' => 1,
                     'userable_id' => $i,

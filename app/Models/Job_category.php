@@ -13,7 +13,7 @@ class Job_category extends Model
 
     public function workExp()
     {
-        return $this->belongsTo(Work_exp::class);
+        return $this->hasMany(Work_exp::class);
     }
 
     public function jobDesires()

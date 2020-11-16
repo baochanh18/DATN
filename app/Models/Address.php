@@ -9,7 +9,7 @@ class Address extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'job_desire_id', 'work_exp_id', 'company_profile_id', 'job_contact_id', 'job_detail_id',
+    protected $fillable = [ 'job_desire_id', 'work_exp_id', 'company_profile_id',
                             'country_id', 'address', 'location_id', 'user_profile_id', 'cv_id' ];
 
     public function userProfile()
@@ -37,14 +37,9 @@ class Address extends Model
         return $this->belongsTo(Work_exp::class);
     }
 
-    public function jobContact()
+    public function jobDetails()
     {
-        return $this->belongsTo(Job_contact::class);
-    }
-
-    public function jobDetail()
-    {
-        return $this->belongsTo(Job_detail::class);
+        return $this->belongsToMany(Job_detail::class);
     }
 
     public function country()

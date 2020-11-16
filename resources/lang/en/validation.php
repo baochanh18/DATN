@@ -149,6 +149,7 @@ return [
     'attributes' => [
         'email' => 'Email',
         'password' => 'Password',
+        'username' => 'User Name',
         'profile.name' => 'Name' ,
         'profile.birthday' => 'Birthday',
         'profile.gender' => 'Gender',

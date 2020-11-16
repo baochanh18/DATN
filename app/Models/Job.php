@@ -17,13 +17,9 @@ class Job extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function jobContact()
-    {
-        return $this->hasOne(Job_contact::class);
-    }
-
     public function jobDetail()
     {
         return $this->hasOne(Job_detail::class);
     }
+
 }

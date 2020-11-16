@@ -23,7 +23,7 @@ class CreateJobDesiresTable extends Migration
             $table->integer('desire_money_type')->nullable();
             $table->integer('desire_job_position');
             $table->integer('desire_job_type');
-            $table->string('desire_job_description');
+            $table->longText('desire_job_description');
             $table->timestamps();
         });
     }

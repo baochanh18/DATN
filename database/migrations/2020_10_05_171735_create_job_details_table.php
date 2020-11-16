@@ -16,21 +16,38 @@ class CreateJobDetailsTable extends Migration
         Schema::create('job_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('job_id')->constrained('jobs');
+            $table->integer('job_level');
+            $table->integer('job_type');
             $table->integer('job_salary_type');
             $table->bigInteger('job_minimum_salary')->nullable();
             $table->bigInteger('job_maximum_salary')->nullable();
-            $table->integer('job_money_type')->nullable();
-            $table->integer('job_minimum_age');
-            $table->integer('job_maximum_age');
-            $table->boolean('gender');
-            $table->string('job_description');
-            $table->integer('job_literacy');
-            $table->integer('year_of_work');
-            $table->string('job_requirement');
+            $table->longText('job_description');
+            $table->longText('job_requirement');
+            $table->string('cv_language');
+            $table->string('contact_name');
+            $table->string('contact_email');
             $table->timestamps();
         });
     }
-
+    /* job level:
+        0: mới tốt nghiệp
+        1: Nhân viên
+        2: Trưởng phòng
+        3: Giảm đốc và cấp cao hơn
+    /* job type:
+        0: toàn thời gian
+        1: bán thời gian
+        2: thực tập
+        3: nghề tự do
+        4: hợp đồng thời vụ
+        5: khác
+    */
+    /* job salary type:
+        0: nhập
+        1: hơn
+        2: thương lượng
+        3: cạnh tranh
+    */
     /**
      * Reverse the migrations.
      *

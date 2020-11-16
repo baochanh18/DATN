@@ -18,13 +18,24 @@ class CreateJobsTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('job_title');
             $table->string('company_name');
-            $table->string('company_website_url');
-            $table->string('company_youtube_url');
-            $table->string('company_descriptions');
+            $table->string('address');
+            $table->string('company_website_url')->nullable();
+            $table->string('company_youtube_url')->nullable();
+            $table->string('company_logo')->nullable();
+            $table->boolean('is_expire')->default(false);
+            $table->date('active_day')->nullable();
+            $table->integer('job_status')->default(0);
+            $table->longText('company_descriptions');
             $table->integer('company_size');
             $table->timestamps();
         });
     }
+    /* job status
+        0: nháp
+        1: đang kiểm tra
+        2: được kích hoạt
+        3: bị ẩn
+     */
 
     /**
      * Reverse the migrations.
