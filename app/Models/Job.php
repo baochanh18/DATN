@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +12,72 @@ class Job extends Model
 
     protected $fillable = [ 'user_id', 'job_title', 'company_name', 'company_website_url',
                             'company_youtube_url', 'company_descriptions', 'company_size' ];
+
+    public function scopeCitysearch($query, $city)
+    {
+        $query->whereHas('jobDetail', function (Builder $query) use ($city) {
+            $query->whereHas('addresses', function (Builder $query) use ($city) {
+                $query->whereHas('location', function (Builder $query) use ($city) {
+                   $query->where('city_id', $city);
+                });
+            });
+        });
+        return $query;
+    }
+
+    public function scopeCategorysearch($query, $category)
+    {
+        $query->whereHas('jobDetail', function (Builder $query) use ($category) {
+            $query->whereHas('jobCategories', function (Builder $query) use ($category) {
+                $query->where('job_name', $category);
+            });
+        });
+        return $query;
+    }
+
+    public function scopeLevelsearch($query, $level)
+    {
+        $query->whereHas('jobDetail', function (Builder $query) use ($level) {
+            $query->where('job_level', $level);
+        });
+        return $query;
+    }
+
+    public function scopeSalarysearch($query, $salary)
+    {
+        $query->whereHas('jobDetail', function (Builder $query) use ($salary) {
+            if ($salary == 0)
+                $query->where('job_salary_type', 0)->where('job_minimum_salary', '<=', 500)
+                    ->orWhere('job_maximum_salary', '<=', 500);
+            else  if ($salary == 1)
+                $query->where('job_salary_type', 0)->where('job_minimum_salary', '>', 500)
+                      ->where('job_maximum_salary', '<=', 1000);
+            else  if ($salary == 2)
+                $query->where('job_salary_type', 0)->where('job_minimum_salary', '>', 1000)
+                      ->where('job_maximum_salary', '<=', 2000);
+            else  if ($salary == 3)
+                $query->where('job_salary_type', 0)->where('job_minimum_salary', '>', 2000)
+                    ->orWhere('job_maximum_salary', '>', 2000);
+            else  if ($salary == 4)
+                $query->where('job_salary_type', 1);
+            else
+                return $query;
+        });
+        return $query;
+    }
+
+    public function scopeFiltersearch($query, $filter)
+    {
+        $query->where('job_title', 'like', '%'.$filter.'%')
+            ->orWhere('company_name', 'like', '%'.$filter.'%')
+            ->orWhereHas('jobDetail', function (Builder $query) use ($filter) {
+                $query->Where('job_description', 'like', '%'.$filter.'%')
+                    ->orWhereHas('jobCategories', function (Builder $query) use ($filter) {
+                       $query->where('job_name', 'like', '%'.$filter.'%');
+                    });
+            });
+        return $query;
+    }
 
     public function user()
     {

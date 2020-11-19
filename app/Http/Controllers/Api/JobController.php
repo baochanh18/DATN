@@ -22,6 +22,38 @@ class JobController extends Controller
         return response()->success(JobResource::collection($paginate));
     }
 
+    public function search(Request $request)
+    {
+//        $jobs = Job::whereHas('jobDetail', function (Builder $query) {
+//            $query->whereHas('addresses', function (Builder $query) {
+//                $query->whereHas('location', function (Builder $query) {
+//                   $query->where('city_id', 27);
+//                });
+//            });
+//            $query->where('job_description', 'like', '%'.'quite'.'%');
+//        });
+        $jobs = Job::where('is_expire', 0);
+
+        if($request->level != "all")
+            $jobs = $jobs->levelsearch($request->level);
+        if($request->category != "all")
+            $jobs = $jobs->categorysearch($request->category);
+        if($request->salary != "all")
+            $jobs = $jobs->salarysearch($request->salary);
+        if($request->city != "all")
+            $jobs = $jobs->citysearch($request->city);
+        if($request->filter != "")
+            $jobs = $jobs->filtersearch($request->filter);
+
+        if($request->sort == "desc")
+            $jobs = $jobs->orderBy('active_day', 'desc');
+        else
+            $jobs = $jobs->orderBy('active_day', 'asc');
+        $jobs = $jobs->get();
+        $pagination = CollectionHelper::paginate($jobs, 15);
+        return response()->success(\App\Http\Resources\Job::collection($pagination));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

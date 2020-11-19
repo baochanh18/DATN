@@ -27,7 +27,7 @@ class Job_detailFactory extends Factory
             'job_id' => Job::factory(),
             'job_level' => rand(0 ,3),
             'job_type' => rand(0, 5),
-            'job_salary_type' => rand(0 ,3),
+            'job_salary_type' => rand(0 ,1),
             'job_minimum_salary' => rand(300, 1500),
             'job_maximum_salary' => rand(2000, 3000),
             'job_description' => $this->faker->realText(1000),
