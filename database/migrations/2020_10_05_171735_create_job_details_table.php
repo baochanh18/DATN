@@ -44,9 +44,7 @@ class CreateJobDetailsTable extends Migration
     */
     /* job salary type:
         0: nhập
-        1: hơn
-        2: thương lượng
-        3: cạnh tranh
+        1: thương lượng
     */
     /**
      * Reverse the migrations.

@@ -28,6 +28,7 @@ class JobFactory extends Factory
             'job_title' => $this->faker->jobTitle,
             'company_name' => $this->faker->company,
             'address' => $this->faker->address,
+            'active_day' => $this->faker->date('Y-m-d', 'now'),
             'company_descriptions' => $this->faker->realText(500),
             'company_size' => rand(0, 9),
         ];

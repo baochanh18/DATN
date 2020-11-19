@@ -23,7 +23,9 @@ Route::group([
        Route::post('login', 'AuthController@login');
     });
 
-    Route::get('jobs', [\App\Http\Controllers\Api\JobController::class, 'index']);
+    Route::post('searchjob', [\App\Http\Controllers\Api\JobController::class, 'search']);
+    Route::get('cities', [\App\Http\Controllers\Api\DataController::class, 'city']);
+    Route::get('categories', [\App\Http\Controllers\Api\DataController::class, 'category']);
 
     Route::group(['middleware' => 'jwt.auth'], function (){
         Route::get('users/me', 'UserController@me');

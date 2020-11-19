@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Job_detail as JobDetailResource;
 use App\Http\Resources\Address as AddressResource;
+use App\Http\Resources\JobCategory as JobCategoryResource;
 
 class Job extends JsonResource
 {
@@ -24,6 +25,7 @@ class Job extends JsonResource
             'company_youtube_url' => $this->company_youtube_url,
             'company_logo' => $this->company_logo,
             'address' => $this->address,
+            'active_day' => $this->active_day,
             'company_descriptions' => $this->company_descriptions,
             'company_size' => $this->company_size,
             'created_at' => $this->created_at->format('Y-m-d'),
@@ -32,6 +34,7 @@ class Job extends JsonResource
         $arrayData['jobDetail'] = new JobDetailResource($this->jobDetail);
 //        $arrayData['job_detail'] = 'new JobDetailResource($this->jobDetail)';
         $arrayData['addresses'] = AddressResource::collection($this->jobDetail->addresses);
+        $arrayData['categories'] = JobCategoryResource::collection($this->jobDetail->jobCategories);
 
         Return $arrayData;
     }
