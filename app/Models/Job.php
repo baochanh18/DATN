@@ -17,9 +17,7 @@ class Job extends Model
     {
         $query->whereHas('jobDetail', function (Builder $query) use ($city) {
             $query->whereHas('addresses', function (Builder $query) use ($city) {
-                $query->whereHas('location', function (Builder $query) use ($city) {
-                   $query->where('city_id', $city);
-                });
+               $query->where('city_id', $city);
             });
         });
         return $query;

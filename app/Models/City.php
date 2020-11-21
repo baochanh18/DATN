@@ -10,7 +10,13 @@ class City extends Model
     use HasFactory;
     protected $fillable = [ 'city_name', 'zipcode' ];
 
-    public function locations(){
+    public function locations()
+    {
         return $this->hasMany(Location::class);
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 }

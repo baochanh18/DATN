@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Location;
+use App\Http\Resources\Location as LocationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Address extends JsonResource
@@ -19,14 +20,17 @@ class Address extends JsonResource
             'id' => $this->id ,
             'country' => $this->country->country_name ,
             'address' => $this->address  ,
+            'city_id' => $this->city->id ,
+            'city' => $this->city->city_name,
         ];
 
         if(count($this->location()->get()) > 0)
         {
-            $arrayData['city_id'] = $this->location->city->id ;
-            $arrayData['city'] = $this->location->city->city_name ;
-            $arrayData['district_id'] = $this->location->id ;
-            $arrayData['district'] = $this->location->location_name ;
+            $arrayData['locations'] = new LocationResource($this->location) ;
+        }
+        if($this->address_name != null)
+        {
+            $arrayData['address_name'] = $this->address_name ;
         }
         return $arrayData;
     }

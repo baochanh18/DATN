@@ -37,9 +37,11 @@ class AddressFactory extends Factory
 //            'company_profile_id' => Company_profile::factory() ,
 //            'job_contact_id' => Job_contact::factory() ,
 //            'job_detail_id' => Job_detail::factory() ,
+            'address_name' => $this->faker->country,
             'country_id' => Country::where('country_name', '=', 'Vietnam')->firstOrFail()->id  ,
+            'city_id' => rand(1, 63),
             'address' => $this->faker->address ,
-            'location_id' => rand(1,709),
+//            'location_id' => rand(1,709),
 //            'user_profile_id' => User_profile::factory() ,
 //            'cv_id' => Cv::factory()
         ];
