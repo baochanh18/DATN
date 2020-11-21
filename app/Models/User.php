@@ -55,10 +55,8 @@ class User extends Authenticatable implements JWTSubject
                     {
                         $query->whereHas('userProfile', function ($query) use ($field) {
                             $query->whereHas('address', function ($query) use ($field) {
-                                $query->whereHas('location', function ($query) use ($field) {
-                                    $query->whereHas('city', function ($query) use ($field) {
-                                        $query->where('city_name', 'LIKE', '%' . $field['value'] . '%');
-                                    });
+                                $query->whereHas('city', function ($query) use ($field) {
+                                    $query->where('city_name', 'LIKE', '%' . $field['value'] . '%');
                                 });
                             });
                         });
