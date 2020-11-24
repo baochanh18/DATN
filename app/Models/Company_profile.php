@@ -23,4 +23,9 @@ class Company_profile extends Model
     {
         return $this->hasMany(Address::class);
     }
+
+    public  function benefits()
+    {
+        return $this->hasMany(Benefit::class);
+    }
 }

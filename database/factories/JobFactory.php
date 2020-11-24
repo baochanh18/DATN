@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Enums\JobStatus;
 use App\Models\Job;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -23,14 +25,16 @@ class JobFactory extends Factory
      */
     public function definition()
     {
+        $now = Carbon::now();
         return [
             'user_id' => User::factory(),
             'job_title' => $this->faker->jobTitle,
             'company_name' => $this->faker->company,
             'address' => $this->faker->address,
-            'active_day' => $this->faker->date('Y-m-d', 'now'),
+            'active_day' => $now->subDay(rand(1,22)),
             'company_descriptions' => $this->faker->realText(500),
             'company_size' => rand(0, 9),
+            'job_status' => JobStatus::Active,
         ];
     }
 }

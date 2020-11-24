@@ -87,4 +87,14 @@ class Job extends Model
         return $this->hasOne(Job_detail::class);
     }
 
+    public function benefits()
+    {
+        return $this->hasMany(Benefit::class);
+    }
+
+    public function applyCvs()
+    {
+        return $this->hasMany(Apply_cv::class);
+    }
+
 }

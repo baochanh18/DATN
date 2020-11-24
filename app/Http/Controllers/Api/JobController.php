@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\JobStatus;
 use app\Helpers\CollectionHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use App\Http\Resources\Job as JobResource;
+use App\Http\Resources\ShortJobInfo as ShortJobInfoResource;
 
 class JobController extends Controller
 {
@@ -24,15 +26,7 @@ class JobController extends Controller
 
     public function search(Request $request)
     {
-//        $jobs = Job::whereHas('jobDetail', function (Builder $query) {
-//            $query->whereHas('addresses', function (Builder $query) {
-//                $query->whereHas('location', function (Builder $query) {
-//                   $query->where('city_id', 27);
-//                });
-//            });
-//            $query->where('job_description', 'like', '%'.'quite'.'%');
-//        });
-        $jobs = Job::where('is_expire', 0);
+        $jobs = Job::where('is_expire', 0)->where('job_status', JobStatus::Active);
 
         if($request->level != "all")
             $jobs = $jobs->levelsearch($request->level);
@@ -46,12 +40,12 @@ class JobController extends Controller
             $jobs = $jobs->filtersearch($request->filter);
 
         if($request->sort == "desc")
-            $jobs = $jobs->orderBy('active_day', 'desc');
-        else
             $jobs = $jobs->orderBy('active_day', 'asc');
+        else
+            $jobs = $jobs->orderBy('active_day', 'desc');
         $jobs = $jobs->get();
         $pagination = CollectionHelper::paginate($jobs, 15);
-        return response()->success(\App\Http\Resources\Job::collection($pagination));
+        return response()->success(JobResource::collection($pagination));
     }
 
     /**
@@ -83,7 +77,14 @@ class JobController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->success(new JobResource(Job::findOrFail($id)));
+    }
+
+    public function other_job($id)
+    {
+        $current_job = Job::findOrFail($id);
+        $another_job = $current_job->user->jobs->where('id', '!=' , $id);
+        return response()->success(ShortJobInfoResource::collection($another_job));
     }
 
     /**
