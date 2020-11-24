@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Address;
+use App\Models\Benefit;
 use App\Models\Company_profile;
 use App\Models\Job;
 use App\Models\Job_detail;
@@ -40,10 +41,13 @@ class UserSeeder extends Seeder
 
         for($i = 1; $i <= 100; $i++) {
             User::factory()
-                ->has(Company_profile::factory()->hasAddresses(3))
-                ->has(Job::factory()
-                    ->count(10)
-                    ->has(Job_detail::factory()))
+                ->has(Company_profile::factory()->hasAddresses(4))
+                ->has(
+                    Job::factory()
+                        ->count(10)
+                        ->has(Job_detail::factory())
+                        ->hasBenefits(3)
+                )
                 ->create([
                     'role' => 1,
                     'userable_id' => $i,

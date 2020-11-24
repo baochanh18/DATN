@@ -28,6 +28,14 @@ class Job_detail extends JsonResource
             'contact_email' => $this->contact_email,
         ];
 
+        if($this->job_level == 0)
+            $arrayData['job_level_name'] = 'Mới tốt nghiệp';
+        if($this->job_level == 1)
+            $arrayData['job_level_name'] = 'Nhân viên';
+        if($this->job_level == 2)
+            $arrayData['job_level_name'] = 'Trưởng phòng';
+        if($this->job_level == 3)
+            $arrayData['job_level_name'] = 'Giám đốc hoặc cao hơn';
 
         Return $arrayData;
     }

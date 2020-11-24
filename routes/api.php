@@ -26,6 +26,9 @@ Route::group([
     Route::post('searchjob', [\App\Http\Controllers\Api\JobController::class, 'search']);
     Route::get('cities', [\App\Http\Controllers\Api\DataController::class, 'city']);
     Route::get('categories', [\App\Http\Controllers\Api\DataController::class, 'category']);
+    Route::get('jobs/{job}',[\App\Http\Controllers\Api\JobController::class, 'show']);
+    Route::get('otherjob/{job}', [\App\Http\Controllers\Api\JobController::class, 'other_job']);
+
 
     Route::group(['middleware' => 'jwt.auth'], function (){
         Route::get('users/me', 'UserController@me');
@@ -33,5 +36,7 @@ Route::group([
         Route::post('users/editstatus/{user}', 'UserController@editstatus');
         Route::post('users/companyinfo', 'UserController@companyinfo');
         Route::apiResource('users', 'UserController');
+
+        Route::post('applycv/{job}', [\App\Http\Controllers\Api\ApplyCvController::class, 'store']);
     });
 });
