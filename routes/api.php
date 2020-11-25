@@ -38,5 +38,9 @@ Route::group([
         Route::apiResource('users', 'UserController');
 
         Route::post('applycv/{job}', [\App\Http\Controllers\Api\ApplyCvController::class, 'store']);
+        Route::post('savejob/{job}',[\App\Http\Controllers\Api\JobController::class, 'save_job']);
+        Route::post('unsavejob/{job}',[\App\Http\Controllers\Api\JobController::class, 'unsave_job']);
+        Route::get('getsavedjob',[\App\Http\Controllers\Api\JobController::class, 'getsaved_job']);
+        Route::get('getappliedjob',[\App\Http\Controllers\Api\ApplyCvController::class, 'get_applied_job']);
     });
 });
