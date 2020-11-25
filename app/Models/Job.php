@@ -97,4 +97,8 @@ class Job extends Model
         return $this->hasMany(Apply_cv::class);
     }
 
+    public function savedJobs()
+    {
+        return $this->hasMany(Saved_job::class);
+    }
 }

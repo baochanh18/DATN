@@ -189,4 +189,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Apply_cv::class);
     }
+
+    public function savedJobs()
+    {
+        return $this->hasMany(Saved_job::class);
+    }
 }

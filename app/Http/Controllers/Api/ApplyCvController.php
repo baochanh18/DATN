@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApplyCvRequest;
+use App\Http\Resources\ApplyCvResource;
 use App\Models\Apply_cv;
 use App\Models\Job;
 use Illuminate\Http\Request;
@@ -42,15 +43,20 @@ class ApplyCvController extends Controller
             if(count($job->applyCvs->where('user_id', $user->id)))
                 return response()->error(["Bạn đã ứng tuyển công việc này rồi"], 422);
             $fileName = $request->file('cv_file')->getClientOriginalName();
-            $path = Storage::putFileAs('\apply-cv/'.time().'_'.$user->id, $request->file('cv_file'), $fileName);
+            $path = Storage::putFileAs('apply-cv/'.time().'_'.$user->id, $request->file('cv_file'), $fileName);
             $cv = new Apply_cv($request->except('cv_file'));
             $cv->job_id = $id;
             $cv->user_id = $user->id;
             $cv->cv_file = $path;
             $cv->save();
             return response()->success([],["Ứng tuyển thành công"],201);
-//            return Storage::download($path);
         }
+    }
+
+    public function get_applied_job()
+    {
+        $user = auth()->user();
+        return response()->success(ApplyCvResource::collection($user->applyCvs));
     }
 
     /**

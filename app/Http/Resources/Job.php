@@ -56,18 +56,27 @@ class Job extends JsonResource
         $date = Carbon::parse($this->active_day);
         $now = Carbon::now();
         $date = $date->addDays(30);
+        $arrayData['end_day'] = $date;
         $diff = $date->diffInDays($now);
         if($this->is_expire == 0)
             $arrayData['day_remain'] = $diff;
 
         $user = auth()->user();
-        if($user == null)
+        if($user == null) {
             $arrayData['applied'] = 0;
+            $arrayData['saved'] = false;
+        }
         else
+        {
             if (count($this->applyCvs->where('user_id', $user->id)) == 0)
                 $arrayData['applied'] = 0;
             else
                 $arrayData['applied'] = 1;
+            if(count($this->savedJobs->where('user_id', $user->id)) == 0)
+                $arrayData['saved'] = false;
+            else
+                $arrayData['saved'] = true;
+        }
 
         $arrayData['jobDetail'] = new JobDetailResource($this->jobDetail);
         $arrayData['benefits'] = BenefitResource::collection($this->benefits);

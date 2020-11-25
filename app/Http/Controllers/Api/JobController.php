@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\JobStatus;
+use App\Enums\UserRole;
 use app\Helpers\CollectionHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SaveJobResource;
 use App\Models\Job;
+use App\Models\Saved_job;
 use Illuminate\Http\Request;
 use App\Http\Resources\Job as JobResource;
 use App\Http\Resources\ShortJobInfo as ShortJobInfoResource;
@@ -85,6 +88,40 @@ class JobController extends Controller
         $current_job = Job::findOrFail($id);
         $another_job = $current_job->user->jobs->where('id', '!=' , $id);
         return response()->success(ShortJobInfoResource::collection($another_job));
+    }
+
+    public function save_job($id)
+    {
+        $user = auth()->user();
+        if($user->role == UserRole::Company)
+            return response()->error(["Bạn là nhà tuyển dụng, bạn không thể lưu công việc"], 422);
+        if(count($user->savedJobs->where('job_id', $id)) != 0)
+            return response()->error(["Bạn đã lưu công việc này rồi"], 422);
+        Saved_job::create([
+           'user_id' => $user->id,
+           'job_id' => $id
+        ]);
+        return response()->success([], ['Lưu việc làm thành công'], 201);
+    }
+
+    public function unsave_job($id)
+    {
+        $user = auth()->user();
+        $job = Job::findOrFail($id);
+        if(count($job->savedJobs->where('user_id', $user->id)) == 0)
+            return response()->error(["Bạn chưa lưu công việc này"], 422);
+        else
+        {
+            $saved_job = $job->savedJobs->where('user_id', $user->id)->first();
+            $saved_job->delete();
+            return response()->success([], ['Bỏ lưu việc làm thành công thành công'], 201);
+        }
+    }
+
+    public function getsaved_job()
+    {
+        $user = auth()->user();
+        return response()->success(SaveJobResource::collection($user->savedJobs));
     }
 
     /**
