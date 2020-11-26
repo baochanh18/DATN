@@ -9,8 +9,8 @@ class Address extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'job_desire_id', 'work_exp_id', 'company_profile_id',
-                            'country_id', 'address', 'location_id', 'user_profile_id', 'cv_id' ];
+    protected $fillable = [ 'company_profile_id', 'country_id', 'address', 'location_id',
+        'user_profile_id', 'cv_id' ];
 
     public function userProfile()
     {
@@ -20,21 +20,6 @@ class Address extends Model
     public function companyProfile()
     {
         return $this->belongsTo(Company_profile::class);
-    }
-
-    public function  cv()
-    {
-        return $this->belongsTo(Cv::class);
-    }
-
-    public function jobDesire()
-    {
-        return $this->belongsTo(Job_desire::class);
-    }
-
-    public function workExp()
-    {
-        return $this->belongsTo(Work_exp::class);
     }
 
     public function jobDetails()

@@ -11,11 +11,6 @@ class Country extends Model
 
     protected $fillable = [ 'country_name', 'zipcode'];
 
-    public function education()
-    {
-        return $this->belongsTo(Education::class);
-    }
-
     public function location()
     {
         return $this->hasMany(Location::class);
