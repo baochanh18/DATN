@@ -26,6 +26,8 @@ class ShortJobInfo extends JsonResource
             'job_maximum_salary' => $this->jobDetail->job_maximum_salary
         ];
 
+        $arrayData['apply_count'] = count($this->applyCvs);
+
         $date = Carbon::parse($this->active_day);
         $now = Carbon::now();
         $date = $date->addDays(30);

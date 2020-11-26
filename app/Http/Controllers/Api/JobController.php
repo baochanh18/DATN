@@ -7,6 +7,7 @@ use App\Enums\UserRole;
 use app\Helpers\CollectionHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SaveJobResource;
+use App\Http\Resources\ShortJobInfo;
 use App\Models\Job;
 use App\Models\Saved_job;
 use Illuminate\Http\Request;
@@ -122,6 +123,24 @@ class JobController extends Controller
     {
         $user = auth()->user();
         return response()->success(SaveJobResource::collection($user->savedJobs));
+    }
+
+    public function getjobs()
+    {
+        $user = auth()->user();
+        if($user->role != UserRole::Company)
+            return response()->error(["Bạn không có quyền truy cập"], 422);
+        else{
+            return response()->success(ShortJobInfo::collection($user->jobs));
+        }
+    }
+
+    public function getnewest_job()
+    {
+        $job = Job::where('is_expire', 0)->where('job_status', JobStatus::Active)
+                    ->orderBy('active_day', 'desc')
+                    ->take(10)->get();
+        return response()->success(JobResource::collection($job));
     }
 
     /**

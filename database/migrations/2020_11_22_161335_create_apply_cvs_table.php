@@ -22,9 +22,18 @@ class CreateApplyCvsTable extends Migration
             $table->string('email');
             $table->string('phone_number');
             $table->string('cv_file');
+            $table->integer('cv_status')->default(0);
             $table->timestamps();
         });
     }
+    /*
+        cv_status:
+            0: Chưa xem
+            1: Đã xem
+            2: Đã đủ điều kiện
+            3: Mời phỏng vấn
+            4: Phỏng vấn thành công
+     */
 
     /**
      * Reverse the migrations.
