@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\UserRole;
+use app\Helpers\CollectionHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApplyCvRequest;
 use App\Http\Resources\ApplyCvResource;
+use App\Http\Resources\CompanyApplyCv;
 use App\Models\Apply_cv;
 use App\Models\Job;
 use Illuminate\Http\Request;
@@ -57,6 +59,25 @@ class ApplyCvController extends Controller
     {
         $user = auth()->user();
         return response()->success(ApplyCvResource::collection($user->applyCvs));
+    }
+
+    public function get_applied_cv(Request $request,$id)
+    {
+        $user = auth()->user();
+        $job = Job::findOrFail($id);
+        if($job->user->id != $user->id)
+            return response()->error(["Bạn không có quyền truy cập"], 403);
+        $pagination = CollectionHelper::paginate($job->applyCvs, $request->pageSize);
+        return response()->success(CompanyApplyCv::collection($pagination));
+    }
+
+    public function get_applied_cv_detail ($id)
+    {
+        $user = auth()->user();
+        $cv = Apply_cv::findOrFail($id);
+        if($cv->job->user->id != $user->id)
+            return response()->error(["Bạn không có quyền truy cập"], 403);
+        return response()->success(CompanyApplyCv::collection($cv));
     }
 
     /**

@@ -28,7 +28,7 @@ Route::group([
     Route::get('categories', [\App\Http\Controllers\Api\DataController::class, 'category']);
     Route::get('jobs/{job}',[\App\Http\Controllers\Api\JobController::class, 'show']);
     Route::get('otherjob/{job}', [\App\Http\Controllers\Api\JobController::class, 'other_job']);
-
+    Route::get('newestjob', [\App\Http\Controllers\Api\JobController::class, 'getnewest_job']);
 
     Route::group(['middleware' => 'jwt.auth'], function (){
         Route::get('users/me', 'UserController@me');
@@ -42,5 +42,8 @@ Route::group([
         Route::post('unsavejob/{job}',[\App\Http\Controllers\Api\JobController::class, 'unsave_job']);
         Route::get('getsavedjob',[\App\Http\Controllers\Api\JobController::class, 'getsaved_job']);
         Route::get('getappliedjob',[\App\Http\Controllers\Api\ApplyCvController::class, 'get_applied_job']);
+        Route::get('getjobs',[\App\Http\Controllers\Api\JobController::class, 'getjobs']);
+        Route::post('getappliedcv/{job}',[\App\Http\Controllers\Api\ApplyCvController::class, 'get_applied_cv']);
+        Route::get('getappliedcv/{job}',[\App\Http\Controllers\Api\ApplyCvController::class, 'get_applied_cv']);
     });
 });
