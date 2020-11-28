@@ -33,6 +33,7 @@ class JobFactory extends Factory
             'address' => $this->faker->address,
             'active_day' => $now->subDay(rand(1,22)),
             'company_descriptions' => $this->faker->realText(500),
+            'company_youtube_url' => "https://www.youtube.com/watch?v=f02mOEt11OQ",
             'company_size' => rand(0, 9),
             'job_status' => JobStatus::Active,
         ];

@@ -114,7 +114,7 @@ return [
     'string' => 'The :attribute must be a string.',
     'timezone' => 'The :attribute must be a valid zone.',
     'unique' => 'The :attribute has already been taken.',
-    'uploaded' => 'The :attribute failed to upload.',
+    'uploaded' => 'Kích thước :attribute vượt 2MB hoặc sai định dạng .',
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
@@ -148,11 +148,12 @@ return [
 
     'attributes' => [
         'email' => 'Email',
-        'password' => 'Password',
-        'username' => 'User Name',
-        'profile.name' => 'Name' ,
+        'password' => 'Mật khẩu',
+        'username' => 'Tên tài khoản',
+        'profile.name' => 'Tên' ,
         'profile.birthday' => 'Birthday',
         'profile.gender' => 'Gender',
+        'profile.contact_office_phone' => 'Số điện thoại',
         'title' => 'Chức danh',
         'cv_file' => 'hồ sơ',
         'phone_number' => 'Số điện thoại',

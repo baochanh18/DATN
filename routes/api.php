@@ -20,6 +20,7 @@ Route::group([
 
     Route::group(['prefix'=>'auth'], function (){
        Route::post('register', 'AuthController@register');
+       Route::post('company/register', [\App\Http\Controllers\Api\AuthController::class, 'company_register']);
        Route::post('login', 'AuthController@login');
     });
 

@@ -30,7 +30,9 @@ class JobController extends Controller
 
     public function search(Request $request)
     {
-        $jobs = Job::where('is_expire', 0)->where('job_status', JobStatus::Active);
+        $jobs = Job::with(['jobDetail', 'jobDetail.jobCategories', 'jobDetail.addresses', 'jobDetail.addresses.city',
+            'benefits', 'applyCvs', 'jobDetail.addresses.location','jobDetail.addresses.country'])
+            ->where('is_expire', 0)->where('job_status', JobStatus::Active);
 
         if($request->level != "all")
             $jobs = $jobs->levelsearch($request->level);
@@ -81,7 +83,10 @@ class JobController extends Controller
      */
     public function show($id)
     {
-        return response()->success(new JobResource(Job::findOrFail($id)));
+        $job = Job::findOrFail($id);
+        if($job->job_status != JobStatus::Active)
+            return response()->error(["Không tìm thấy côn việc này"], 404);
+        return response()->success(new JobResource($job));
     }
 
     public function other_job($id)
