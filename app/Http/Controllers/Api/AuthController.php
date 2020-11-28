@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CompanyRegisterRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use Carbon\Carbon;
@@ -29,6 +30,30 @@ class AuthController extends Controller
             $profile = $request->get('profile');
             $profile['birthday'] = Carbon::parse($profile['birthday'])->format('Y-m-d');
             $uf = $user->userProfile()->create($profile);
+            $uf->user()->save($user);
+            $token = auth()->login($user);
+            return response()->success(["token" => $token, "user" => new UserResource($user)], ["Register Success"], 201);
+        }
+    }
+
+    public function company_register(CompanyRegisterRequest $request)
+    {
+        if($request->validator->fails()){
+            return response()->error($request->validator->errors()->all(), 422);
+        }
+        else
+        {
+
+            $user = User::create([
+                'email' => $request->email,
+                'username' => $request->username,
+                'password' => bcrypt($request->password),
+                'role' => 1,
+            ]);
+
+
+            $profile = $request->get('profile');
+            $uf = $user->companyProfile()->create($profile);
             $uf->user()->save($user);
             $token = auth()->login($user);
             return response()->success(["token" => $token, "user" => new UserResource($user)], ["Register Success"], 201);

@@ -24,7 +24,7 @@ class CompanyApplyCv extends JsonResource
             'email' => $this->email,
             'cv_status' => $this->cv_status,
             'phone_number' => $this->phone_number,
-            'cv_file' => Storage::url($this->cv_file),
+            'cv_file' => Storage::cloud()->temporaryUrl($this->cv_file, now()->addMinutes(60)),
             'created_at' => $this->created_at->format('Y-m-d')
         ];
 

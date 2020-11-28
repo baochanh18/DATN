@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -101,4 +102,49 @@ class Job extends Model
     {
         return $this->hasMany(Saved_job::class);
     }
+
+    #region Accessors
+
+    /**
+     * @return string
+     */
+    public function getCompanySizeContentAttribute()
+    {
+        if($this->company_size == 0)
+            return 'Ít hơn 10';
+        else if($this->company_size == 1)
+            return '10-24';
+        else if($this->company_size == 2)
+            return '25-99';
+        else if($this->company_size == 3)
+            return '100-499';
+        else if($this->company_size == 4)
+            return '500-999';
+        else if($this->company_size == 5)
+            return '1.000-4.999';
+        else if($this->company_size == 6)
+            return '5.000-9.999';
+        else if($this->company_size == 7)
+            return '10.000-19.999';
+        else if($this->company_size == 8)
+            return '20.000-49.999';
+        else if($this->company_size == 9)
+            return 'Nhiều hơn 50.000';
+        return 'Khong xac dinh';
+    }
+
+//    public function getEndDayAttribute()
+//    {
+//        $date = Carbon::parse($this->active_day);
+//        $date = $date->addDays(30);
+//        return $date;
+//    }
+//    public function getDayRemain()
+//    {
+//        $diff = $this->end_day->diffInDays(Carbon::now());
+//        if($this->is_expire == 0)
+//            return $diff;
+//        return null;
+//    }
+    #endregion
 }
