@@ -8,6 +8,7 @@ use App\Http\Resources\Job_detail as JobDetailResource;
 use App\Http\Resources\Address as AddressResource;
 use App\Http\Resources\JobCategory as JobCategoryResource;
 use App\Http\Resources\Benefit as BenefitResource;
+use Illuminate\Support\Facades\Storage;
 
 class Job extends JsonResource
 {
@@ -25,7 +26,7 @@ class Job extends JsonResource
             'company_name' => $this->company_name,
             'company_website_url' => $this->company_website_url,
             'company_youtube_url' => $this->company_youtube_url,
-            'company_logo' => $this->company_logo,
+            'company_logo' => Storage::cloud()->temporaryUrl($this->company_logo, now()->addMinutes(60)),
             'address' => $this->address,
             'active_day' => $this->active_day,
             'company_descriptions' => $this->company_descriptions,

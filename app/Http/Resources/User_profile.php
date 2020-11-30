@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Http\Resources\Address as AddressResource;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class User_profile extends JsonResource
 {
@@ -21,7 +22,8 @@ class User_profile extends JsonResource
             'name' => $this->name,
             'profileEmail' => $this->email,
             'phone' => $this->phone,
-            'avatar' => $this->avatar,
+            'avatar' => Storage::cloud()->temporaryUrl($this->avatar, now()->addMinutes(60)),
+            'avatar_path' => $this->avatar,
             'birthday' => Carbon::parse($this->birthday)->format('Y-m-d'),
             'gender' => $this->gender,
         ];

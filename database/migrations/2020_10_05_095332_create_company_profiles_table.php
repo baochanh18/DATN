@@ -21,7 +21,7 @@ class CreateCompanyProfilesTable extends Migration
             $table->integer('company_size');
             $table->string('website_url')->nullable();
             $table->string('youtube_url')->nullable();
-            $table->string('logo')->nullable();
+            $table->string('logo')->default("avatars/default/company-profile.png");
             $table->string('contact_office_name')->nullable();
             $table->string('contact_office_phone');
             $table->string('contact_office_fax')->nullable();

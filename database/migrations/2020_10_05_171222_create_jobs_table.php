@@ -21,7 +21,7 @@ class CreateJobsTable extends Migration
             $table->string('address');
             $table->string('company_website_url')->nullable();
             $table->string('company_youtube_url')->nullable();
-            $table->string('company_logo')->nullable();
+            $table->string('company_logo')->default("avatars/default/company-profile.png");
             $table->boolean('is_expire')->default(false);
             $table->date('active_day')->nullable();
             $table->integer('job_status')->default(0);

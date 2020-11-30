@@ -29,7 +29,6 @@ class Company_profileFactory extends Factory
             'description' => $this->faker->text(100),
             'company_size' => rand(0,9),
             'website_url' => $this->faker->url ,
-            'logo' => $this->faker->imageUrl(640,640) ,
             'contact_office_name' => $this->faker->company ,
             'contact_office_phone' => $this->faker->phoneNumber,
             'contact_office_email' => $this->faker->email ,

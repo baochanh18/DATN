@@ -21,7 +21,7 @@ class CreateAddressesTable extends Migration
             $table->foreignId('company_profile_id')->nullable()->constrained('company_profiles');
 //            $table->foreignId('job_contact_id')->nullable()->constrained('job_contacts');
 //            $table->foreignId('job_detail_id')->nullable()->constrained('job_details');
-            $table->foreignId('country_id')->constrained('countries');
+            $table->foreignId('country_id')->default(192)->constrained('countries');
             $table->foreignId('city_id')->nullable()->constrained('cities') ;
             $table->foreignId('user_profile_id')->nullable()->constrained('user_profiles');
 //            $table->foreignId('cv_id')->nullable()->constrained('cvs');

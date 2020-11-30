@@ -147,13 +147,13 @@ class UserController extends Controller
         {
             $user->isActive = false;
             $user->save();
-            return response()->success([],['Block User Successfully'], 200);
+            return response()->success([],['Khóa tài khoản thành công1'], 200);
         }
         else
         {
             $user->isActive = true;
             $user->save();
-            return response()->success([],'Activate User Successfully!', 200);
+            return response()->success([],'Kích hoạt tài khoản thành công!', 200);
         }
     }
 
