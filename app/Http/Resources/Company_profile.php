@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Http\Resources\Address as AddressResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class Company_profile extends JsonResource
 {
@@ -22,7 +23,8 @@ class Company_profile extends JsonResource
             'company_size' => $this->company_size,
             'website_url' => $this->website_url,
             'youtube_url' => $this->youtube_url,
-            'logo' => $this->logo,
+            'logo' => Storage::cloud()->temporaryUrl($this->logo, now()->addMinutes(60)),
+            'logo_path' => $this->logo,
             'contact_office_name' => $this->contact_office_name,
             'contact_office_phone' => $this->contact_office_phone,
             'contact_office_fax' => $this->contact_office_fax,

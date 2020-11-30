@@ -21,7 +21,7 @@ class CreateUserProfilesTable extends Migration
             $table->date('birthday');
             $table->boolean('gender');
             $table->string('phone')->nullable();
-            $table->string('avatar')->nullable();
+            $table->string('avatar')->default("avatars/default/default-profile.png");
             $table->timestamps();
         });
     }
