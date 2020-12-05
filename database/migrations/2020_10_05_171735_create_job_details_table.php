@@ -23,9 +23,9 @@ class CreateJobDetailsTable extends Migration
             $table->bigInteger('job_maximum_salary')->nullable();
             $table->longText('job_description');
             $table->longText('job_requirement');
-            $table->string('cv_language');
-            $table->string('contact_name');
-            $table->string('contact_email');
+                $table->string('cv_language');
+            $table->string('contact_name')->nullable();
+            $table->string('contact_email')->nullable();
             $table->timestamps();
         });
     }

@@ -33,11 +33,16 @@ Route::group([
 
     Route::group(['middleware' => 'jwt.auth'], function (){
         Route::get('users/me', 'UserController@me');
+        //admin
         Route::post('users/userinfo', 'UserController@userinfo');
         Route::post('users/editstatus/{user}', 'UserController@editstatus');
         Route::post('users/companyinfo', 'UserController@companyinfo');
         Route::apiResource('users', 'UserController');
+        Route::post('admin/jobs', [\App\Http\Controllers\Api\Admin\JobController::class, 'index']);
+        Route::post('admin/jobs/pending', [\App\Http\Controllers\Api\Admin\JobController::class, 'pending']);
+        Route::post('admin/jobs/all', [\App\Http\Controllers\Api\Admin\JobController::class, 'all']);
 
+        //user
         Route::post('applycv/{job}', [\App\Http\Controllers\Api\ApplyCvController::class, 'store']);
         Route::post('savejob/{job}',[\App\Http\Controllers\Api\JobController::class, 'save_job']);
         Route::post('unsavejob/{job}',[\App\Http\Controllers\Api\JobController::class, 'unsave_job']);
@@ -46,5 +51,12 @@ Route::group([
         Route::get('getjobs',[\App\Http\Controllers\Api\JobController::class, 'getjobs']);
         Route::post('getappliedcv/{job}',[\App\Http\Controllers\Api\ApplyCvController::class, 'get_applied_cv']);
         Route::get('getappliedcv/{job}',[\App\Http\Controllers\Api\ApplyCvController::class, 'get_applied_cv']);
+        Route::post('newjob',[\App\Http\Controllers\Api\JobController::class, 'store']);
+
+        //preview job
+        Route::get('previewjob/{job}',[\App\Http\Controllers\Api\PreviewJobController::class, 'show']);
+
+        //job status
+        Route::post('jobstatus/edit/{job}', [\App\Http\Controllers\Api\PreviewJobController::class, 'editjobstatus']);
     });
 });

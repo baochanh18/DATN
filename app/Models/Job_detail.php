@@ -9,9 +9,8 @@ class Job_detail extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'job_id', 'job_salary_type', 'job_minimum_salary', 'job_maximum_salary', 'job_money_type',
-                            'job_minimum_age', 'job_maximum_age', 'gender', 'job_description',
-                            'job_literacy', 'year_of_work', 'job_requirement' ];
+    protected $fillable = [ 'job_id', 'job_salary_type', 'job_minimum_salary', 'job_maximum_salary', 'job_level',
+                            'job_type', 'job_description', 'job_requirement', 'cv_language'];
 
     public function job()
     {
