@@ -9,6 +9,8 @@ class Benefit extends Model
 {
     use HasFactory;
 
+    protected $fillable = [ 'job_id', 'benefits_description'];
+
     public function companyProfile ()
     {
         return $this->belongsTo(Company_profile::class);

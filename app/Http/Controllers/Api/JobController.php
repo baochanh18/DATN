@@ -6,6 +6,7 @@ use App\Enums\JobStatus;
 use App\Enums\UserRole;
 use app\Helpers\CollectionHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\JobRequest;
 use App\Http\Resources\SaveJobResource;
 use App\Http\Resources\ShortJobInfo;
 use App\Models\Job;
@@ -13,6 +14,8 @@ use App\Models\Saved_job;
 use Illuminate\Http\Request;
 use App\Http\Resources\Job as JobResource;
 use App\Http\Resources\ShortJobInfo as ShortJobInfoResource;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class JobController extends Controller
 {
@@ -70,9 +73,46 @@ class JobController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(JobRequest $request)
     {
-        //
+//        return response()->json(\GuzzleHttp\json_decode($request->addresses[0], true));
+        if($request->validator->fails()){
+            return response()->error($request->validator->errors()->all(), 422);
+        }
+        $user = auth()->user();
+        if($user->role != UserRole::Company) {
+            return response()->error(["Bạn không có thực hiện chức năng này"], 403);
+        }
+        $fileName = $request->file('company_logo')->getClientOriginalName();
+        $path = Storage::putFileAs('logo/'.time().'_'.$user->id, $request->file('company_logo'), $fileName);
+
+        DB::beginTransaction();
+        try {
+            $job = new Job($request->except(['company_logo', 'is_expire', 'active_day', 'job_status']));
+            $job->company_logo = $path;
+            $job->user_id = $user->id;
+            $job->save();
+            foreach($request->benefits as $key => $val)
+            {
+                info("call create benefit");
+                $job->benefits()->create(\GuzzleHttp\json_decode($val, true));
+            }
+            $detail = $job->jobDetail()->create($request->all());
+            $detail->jobCategories()->sync($request->job_categories);
+            foreach($request->addresses as $key => $val)
+            {
+                info("call create address");
+                $detail->addresses()->create(\GuzzleHttp\json_decode($val, true));
+            }
+            DB::commit();
+
+            return response()->success([], ['Tạo việc làm mơi thành công'], 201);
+        }
+        catch (\Exception $exception)
+        {
+            DB::rollBack();
+            throw $exception;
+        }
     }
 
     /**
@@ -130,14 +170,22 @@ class JobController extends Controller
         return response()->success(SaveJobResource::collection($user->savedJobs));
     }
 
-    public function getjobs()
+    public function getjobs(Request $request)
     {
         $user = auth()->user();
         if($user->role != UserRole::Company)
             return response()->error(["Bạn không có quyền truy cập"], 422);
-        else{
-            return response()->success(ShortJobInfo::collection($user->jobs));
+        if($request->type >= 0 && $request->type <= 3)
+        {
+            $job = $user->jobs->where('job_status', $request->type)->where('is_expire', 0);
+            return response()->success(ShortJobInfo::collection($job));
         }
+        if($request->type == 4)
+        {
+            $job = $user->jobs->where('is_expire', 1);
+            return response()->success(ShortJobInfo::collection($job));
+        }
+        return response()->success(ShortJobInfo::collection($user->jobs));
     }
 
     public function getnewest_job()

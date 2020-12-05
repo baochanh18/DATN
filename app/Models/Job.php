@@ -11,8 +11,9 @@ class Job extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'user_id', 'job_title', 'company_name', 'company_website_url',
-                            'company_youtube_url', 'company_descriptions', 'company_size' ];
+    protected $fillable = [ 'user_id', 'job_title', 'company_name', 'address','company_website_url',
+                            'company_youtube_url', 'company_logo', 'is_expire', 'active_day', 'job_status',
+                            'company_descriptions', 'company_size' ];
 
     public function scopeCitysearch($query, $city)
     {

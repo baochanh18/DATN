@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Admin;
 
-use App\Http\Resources\Address as AddressResource;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ShortJobInfo extends JsonResource
+class JobResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,17 +17,11 @@ class ShortJobInfo extends JsonResource
     {
         $arrayData = [
             'id' => $this->id ,
+            'username' => $this->user->username,
+            'email' => $this->user->email,
             'job_title' => $this->job_title,
-            'company_name' => $this->company_name,
             'active_day' => $this->active_day,
-            'job_salary_type' => $this->jobDetail->job_salary_type,
-            'job_minimum_salary' => $this->jobDetail->job_minimum_salary,
-            'is_expire' => $this->is_expire,
-            'job_status' => $this->job_status,
-            'job_maximum_salary' => $this->jobDetail->job_maximum_salary
         ];
-
-        $arrayData['apply_count'] = count($this->applyCvs);
 
         $date = Carbon::parse($this->active_day);
         $now = Carbon::now();
@@ -37,8 +30,6 @@ class ShortJobInfo extends JsonResource
         $diff = $date->diffInDays($now);
         if($this->is_expire == 0)
             $arrayData['day_remain'] = $diff;
-
-        $arrayData['addresses'] = AddressResource::collection($this->jobDetail->addresses);
 
         return $arrayData;
     }
