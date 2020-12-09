@@ -27,6 +27,7 @@ class CreateJobsTable extends Migration
             $table->integer('job_status')->default(0);
             $table->longText('company_descriptions');
             $table->integer('company_size');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

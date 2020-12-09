@@ -28,6 +28,20 @@ class UserSeeder extends Seeder
                 'userable_id' => 1,
                 'userable_type' => 'App\Models\User_profile',
             ]);
+        User::factory()
+            ->has(Company_profile::factory()->hasAddresses(4))
+            ->has(
+                Job::factory()
+                    ->count(10)
+                    ->has(Job_detail::factory())
+                    ->hasBenefits(3)
+            )
+            ->create([
+                'email' => 'company@gmail.com',
+                'role' => 1,
+                'userable_id' => 1,
+                'userable_type' => 'App\Models\Company_profile',
+            ]);
 
         for ($i = 2; $i <= 11; $i++){
             User::factory()
@@ -39,7 +53,7 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        for($i = 1; $i <= 100; $i++) {
+        for($i = 2; $i <= 101; $i++) {
             User::factory()
                 ->has(Company_profile::factory()->hasAddresses(4))
                 ->has(

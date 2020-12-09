@@ -58,5 +58,10 @@ Route::group([
 
         //job status
         Route::post('jobstatus/edit/{job}', [\App\Http\Controllers\Api\PreviewJobController::class, 'editjobstatus']);
+
+        //company handle job
+        Route::get('company/jobs/{job}', [\App\Http\Controllers\Api\Company\JobController::class, 'edit']);
+        Route::post('company/jobs/{job}', [\App\Http\Controllers\Api\Company\JobController::class, 'update']);
+        Route::delete('company/jobs/{job}', [\App\Http\Controllers\Api\Company\JobController::class, 'destroy']);
     });
 });
