@@ -94,14 +94,12 @@ class JobController extends Controller
             $job->save();
             foreach($request->benefits as $key => $val)
             {
-                info("call create benefit");
                 $job->benefits()->create(\GuzzleHttp\json_decode($val, true));
             }
             $detail = $job->jobDetail()->create($request->all());
             $detail->jobCategories()->sync($request->job_categories);
             foreach($request->addresses as $key => $val)
             {
-                info("call create address");
                 $detail->addresses()->create(\GuzzleHttp\json_decode($val, true));
             }
             DB::commit();

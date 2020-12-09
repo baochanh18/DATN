@@ -6,10 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Job extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [ 'user_id', 'job_title', 'company_name', 'address','company_website_url',
                             'company_youtube_url', 'company_logo', 'is_expire', 'active_day', 'job_status',
@@ -50,13 +51,13 @@ class Job extends Model
                 $query->where('job_salary_type', 0)->where('job_minimum_salary', '<=', 500)
                     ->orWhere('job_maximum_salary', '<=', 500);
             else  if ($salary == 1)
-                $query->where('job_salary_type', 0)->where('job_minimum_salary', '>', 500)
+                $query->where('job_salary_type', 0)->where('job_minimum_salary', '>=', 500)
                       ->where('job_maximum_salary', '<=', 1000);
             else  if ($salary == 2)
-                $query->where('job_salary_type', 0)->where('job_minimum_salary', '>', 1000)
+                $query->where('job_salary_type', 0)->where('job_minimum_salary', '>=', 1000)
                       ->where('job_maximum_salary', '<=', 2000);
             else  if ($salary == 3)
-                $query->where('job_salary_type', 0)->where('job_minimum_salary', '>', 2000)
+                $query->where('job_salary_type', 0)->where('job_minimum_salary', '>=', 2000)
                     ->orWhere('job_maximum_salary', '>', 2000);
             else  if ($salary == 4)
                 $query->where('job_salary_type', 1);
