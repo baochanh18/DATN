@@ -80,6 +80,90 @@ class Job extends Model
         return $query;
     }
 
+    public function scopeFilteradmin($query, $request)
+    {
+        if(count($request))
+            foreach($request as $field )
+            {
+                if($field['id'] == 'username') {
+                    $query->whereHas('user', function ($query) use ($field) {
+                        $query->where('username', 'LIKE', '%' . $field['value'] . '%');
+                    });
+                    continue;
+                }
+                else if($field['id'] == 'email') {
+                    $query->whereHas('user', function ($query) use ($field) {
+                        $query->where('email', 'LIKE', '%' . $field['value'] . '%');
+                    });
+                    continue;
+                }
+                else if($field['id'] == 'job_title') {
+                    $query->where('job_title', 'LIKE', '%' . $field['value'] . '%');
+                    continue;
+                }
+                else if($field['id'] == 'job_status') {
+                    if ($field['value'] != "all")
+                        $query->whereHas('jobDetail', function ($query) use ($field) {
+                            $query->where('job_status', $field['value']);
+                        });
+                    continue;
+                }
+                else if($field['id'] == 'is_expire') {
+                    if ($field['value'] != "all")
+                        $query->whereHas('jobDetail', function ($query) use ($field) {
+                            $query->where('is_expire', $field['value']);
+                        });
+                    continue;
+                }
+                else if($field['id'] == 'active_day') {
+                    if (count($field['value']) != 0 ) {
+                        $query->whereHas('jobDetail', function ($query) use ($field) {
+                            $day = Carbon::parse($field['value'][0])->addDays(1)->format('Y-m-d');
+                            $query->where('active_day', '=' , $day);
+                        });
+                    }
+                    continue;
+                }
+                else if($field['id'] == 'end_day') {
+                    if (count($field['value']) != 0 ) {
+                        $query->whereHas('jobDetail', function ($query) use ($field) {
+                            $day = Carbon::parse($field['value'][0])->addDays(-29)->format('Y-m-d');
+                            $query->where('active_day', '=' , $day);
+                        });
+                    }
+                    continue;
+                }
+            }
+
+        return $query;
+    }
+
+    public function scopeSortadmin($query, $request)
+    {
+        if(count($request))
+            foreach($request as $field )
+            {
+                if($field['id'] == 'username' || $field['id'] == 'email') {
+                    $query->with('user', function ($query) use ($field) {
+                        if($field['desc'])
+                            $query->orderBy($field['id'], 'desc');
+                        else
+                            $query->orderBy($field['id']);
+                    });
+                    continue;
+                }
+                else if($field['id'] == 'job_title') {
+                    if($field['desc'])
+                        $query->orderBy($field['id'], 'desc');
+                    else
+                        $query->orderBy($field['id']);
+                    continue;
+                }
+            }
+
+        return $query;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
