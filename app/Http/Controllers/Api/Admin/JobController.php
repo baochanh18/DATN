@@ -22,7 +22,10 @@ class JobController extends Controller
         $user = auth()->user();
         if($user->role != UserRole::Admin)
             return response()->error(["Bạn không có quyền truy cập"], 403);
-        $job = Job::where('job_status', JobStatus::Active)->get();
+        $job = Job::where('job_status', JobStatus::Active)
+            ->filteradmin($request->get('filtered'))
+            ->sortadmin($request->get('sorted'))
+            ->get();
         $pagination = CollectionHelper::paginate($job, $request->pageSize);
         return response()->success(JobResource::collection($pagination));
     }
@@ -32,7 +35,10 @@ class JobController extends Controller
         $user = auth()->user();
         if($user->role != UserRole::Admin)
             return response()->error(["Bạn không có quyền truy cập"], 403);
-        $job = Job::where('job_status', JobStatus::Pending)->get();
+        $job = Job::where('job_status', JobStatus::Pending)
+            ->filteradmin($request->get('filtered'))
+            ->sortadmin($request->get('sorted'))
+            ->get();
         $pagination = CollectionHelper::paginate($job, $request->pageSize);
         return response()->success(JobResource::collection($pagination));
     }
@@ -42,7 +48,9 @@ class JobController extends Controller
         $user = auth()->user();
         if($user->role != UserRole::Admin)
             return response()->error(["Bạn không có quyền truy cập"], 403);
-        $job = Job::all();
+        $job = Job::filteradmin($request->get('filtered'))
+                ->sortadmin($request->get('sorted'))
+                ->get();
         $pagination = CollectionHelper::paginate($job, $request->pageSize);
         return response()->success(JobResource::collection($pagination));
     }

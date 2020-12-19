@@ -21,6 +21,8 @@ class JobResource extends JsonResource
             'email' => $this->user->email,
             'job_title' => $this->job_title,
             'active_day' => $this->active_day,
+            'job_status' => $this->job_status,
+            'is_expire' => $this->is_expire
         ];
 
         $date = Carbon::parse($this->active_day);
