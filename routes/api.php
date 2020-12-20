@@ -63,5 +63,11 @@ Route::group([
         Route::get('company/jobs/{job}', [\App\Http\Controllers\Api\Company\JobController::class, 'edit']);
         Route::post('company/jobs/{job}', [\App\Http\Controllers\Api\Company\JobController::class, 'update']);
         Route::delete('company/jobs/{job}', [\App\Http\Controllers\Api\Company\JobController::class, 'destroy']);
+
+        //admin CRUD categories
+        Route::post('admin/categories', [\App\Http\Controllers\Api\Admin\CategoryController::class, 'index']);
+        Route::put('admin/categories/{job_category}', [\App\Http\Controllers\Api\Admin\CategoryController::class, 'update']);
+        Route::delete('admin/categories/{job_category}', [\App\Http\Controllers\Api\Admin\CategoryController::class, 'destroy']);
+        Route::post('admin/categories/new', [\App\Http\Controllers\Api\Admin\CategoryController::class, 'store']);
     });
 });

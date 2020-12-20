@@ -177,6 +177,7 @@ return [
         'cv_language' => 'Ngôn ngữ trình bày hồ sơ',
         'company_logo' => 'Logo công ty',
         'job_categories' => 'Ngành nghề',
+        'job_name' => 'Tên ngành nghề',
     ],
 
 ];
