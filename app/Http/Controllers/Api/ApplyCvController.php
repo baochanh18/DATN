@@ -8,8 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ApplyCvRequest;
 use App\Http\Resources\ApplyCvResource;
 use App\Http\Resources\CompanyApplyCv;
+use App\Jobs\SendMail;
 use App\Models\Apply_cv;
 use App\Models\Job;
+use App\Notifications\AppliedCv;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Psy\Exception\RuntimeException;
@@ -52,6 +54,7 @@ class ApplyCvController extends Controller
             $cv->user_id = $user->id;
             $cv->cv_file = $path;
             $cv->save();
+            SendMail::dispatch($job->user);
             return response()->success([],["Ứng tuyển thành công"],201);
         }
     }

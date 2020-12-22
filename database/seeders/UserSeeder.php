@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
                     ->hasBenefits(3)
             )
             ->create([
-                'email' => 'company@gmail.com',
+                'email' => 'baochanh18@gmail.com',
                 'role' => 1,
                 'userable_id' => 1,
                 'userable_type' => 'App\Models\Company_profile',
